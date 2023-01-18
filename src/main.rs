@@ -12,8 +12,12 @@ extern crate juniper;
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 
-mod graphql_schema;
-use crate::graphql_schema::{create_schema, Schema};
+mod replay_query;
+mod error;
+mod output;
+mod input;
+
+use crate::replay_query::{create_schema, Schema};
 
 async fn graphiql() -> HttpResponse {
     HttpResponse::Ok()
