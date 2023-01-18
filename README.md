@@ -8,36 +8,40 @@ The main goal of this project is to extract game events for statistics purposes 
 
 A huge thanks to [Evido](https://github.com/evido) for his replay [parsing crate](https://github.com/evido/wotreplay-parser)
 
-The listening url http://localhost:8080/graphql
+The listening url http://localhost:8000/graphql
 
 ## Usage
-Playground available here http://localhost:8080/graphiql
+
+Playground available here http://localhost:8000/graphiql
 
 **Query**:
-````graphql
+
+```graphql
 {
   replay(url: "http://wotreplays.eu/site/download/6462727") {
     map {
-      name,
-      displayName
-    },
-    date,
-    player {
-      id,
       name
-    },
+      displayName
+    }
+    date
+    player {
+      id
+      name
+    }
     version {
-      executable,
+      executable
       xml
-    },
+    }
     server {
-      name,
+      name
       regionCode
     }
   }
 }
-````
+```
+
 **Response:**
+
 ```json
 {
   "data": {
@@ -63,6 +67,5 @@ Playground available here http://localhost:8080/graphiql
   }
 }
 ```
-
 
 Feel free to contribute if you want more data extracted from the replay.
