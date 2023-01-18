@@ -16,3 +16,8 @@ jobs:
         run: |
           . "$HOME/.cargo/env"
           cargo build --release
+
+      - name: Restart systemd service
+        shell: bash
+        run: |
+          sudo systemctl restart wot-replay-api.service
