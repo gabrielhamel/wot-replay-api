@@ -1,16 +1,14 @@
-#[macro_use]
-extern crate juniper;
-
-#[macro_use]
-extern crate serde;
-
 use std::io;
 use std::sync::Arc;
+
 use actix_cors::Cors;
 
 use actix_web::{web, App, Error, HttpResponse, HttpServer, middleware};
-use actix_web::dev::Server;
 use actix_web::web::Data;
+
+#[macro_use]
+extern crate juniper;
+
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 

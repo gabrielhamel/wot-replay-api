@@ -1,26 +1,20 @@
-use juniper::{EmptyMutation, EmptySubscription, RootNode};
+use juniper::{EmptyMutation, EmptySubscription, RootNode, GraphQLInputObject};
 
 pub struct QueryRoot;
 
 #[derive(GraphQLObject)]
-struct Member {
-    id: i32,
-    name: String,
+struct Replay {
+    version: String,
+    url: String
 }
 
 #[juniper::graphql_object]
 impl QueryRoot {
-    fn members() -> Vec<Member> {
-        vec![
-            Member {
-                id: 1,
-                name: "Link".to_owned(),
-            },
-            Member {
-                id: 2,
-                name: "Mario".to_owned(),
-            }
-        ]
+    fn replay(url: String) -> Replay {
+        Replay {
+            version: String::from("1.74"),
+            url
+        }
     }
 }
 
