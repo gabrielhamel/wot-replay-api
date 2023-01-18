@@ -1,56 +1,53 @@
-#![feature(proc_macro_hygiene, decl_macro)]
+#[macro_use]
+extern crate juniper;
 
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate serde;
 
-use std::io::Write;
-use rocket::fairing::Info;
-use rocket::response::content;
-use rocket_contrib::json::Json;
-use serde::{Deserialize, Serialize};
-use wot_replay_parser::ReplayParser;
-use rocket::response::status::{BadRequest, NotFound};
+use std::io;
+use std::sync::Arc;
+use actix_cors::Cors;
 
-#[derive(Debug, PartialEq, Eq, Deserialize)]
-struct DiscordReplay {
-    attachment: String,
-    name: String,
-    id: String,
-    size: usize,
-    url: String,
-    proxyURL: String,
-    ephemeral: bool
+use actix_web::{web, App, Error, HttpResponse, HttpServer, middleware};
+use actix_web::dev::Server;
+use actix_web::web::Data;
+use juniper::http::graphiql::graphiql_source;
+use juniper::http::GraphQLRequest;
+
+mod graphql_schema;
+use crate::graphql_schema::{create_schema, Schema};
+
+async fn graphiql() -> HttpResponse {
+    HttpResponse::Ok()
+        .content_type("text/html; charset=utf-8")
+        .body(graphiql_source("/graphql", None))
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize)]
-struct InformationsResponse {
-    version: String,
-    date: String,
-    map: String,
-    player: String
+async fn graphql(
+    st: web::Data<Arc<Schema>>,
+    data: web::Json<GraphQLRequest>,
+) -> Result<HttpResponse, Error> {
+        let res = data.execute(&st, &())
+            .await;
+        let json = serde_json::to_string(&res)?;
+        Ok(HttpResponse::Ok()
+            .content_type("application/json")
+            .body(json))
 }
 
-#[post("/", format = "application/json", data = "<discord_replay>")]
-fn informations(discord_replay: Json<DiscordReplay>) -> Result<Json<InformationsResponse>, BadRequest<String>> {
-    // Save the file
-    let raw = reqwest::blocking::get(&discord_replay.url).expect("").bytes().expect("");
-    let mut file = std::fs::File::create(&discord_replay.name).expect("");
-    file.write(raw.as_ref()).expect("");
-
-    let replay = wot_replay_parser::ReplayParser::parse_file(&discord_replay.name).unwrap();
-    let replay_json_start = replay.replay_json_start().unwrap();
-
-    let infos = InformationsResponse {
-        date: String::from(replay_json_start.get("dateTime").unwrap().as_str().unwrap()),
-        player: String::from(replay_json_start.get("playerName").unwrap().as_str().unwrap()),
-        version: String::from(replay_json_start.get("clientVersionFromExe").unwrap().as_str().unwrap()),
-        map: String::from(replay_json_start.get("mapDisplayName").unwrap().as_str().unwrap())
-    };
-
-    std::fs::remove_file(&discord_replay.name).expect("");
-
-    Ok(Json(infos))
-}
-
-fn main() {
-    rocket::ignite().mount("/informations", routes![informations]).launch();
+#[actix_web::main]
+async fn main() -> io::Result<()> {
+    std::env::set_var("RUST_LOG", "debug");
+    env_logger::init();
+    HttpServer::new(move || {
+        App::new()
+            .wrap(Cors::permissive())
+            .wrap(middleware::Logger::default())
+            .app_data(Data::new(Arc::new(create_schema())))
+            .service(web::resource("/graphql").route(web::post().to(graphql)))
+            .service(web::resource("/graphiql").route(web::get().to(graphiql)))
+    })
+        .bind("0.0.0.0:8080")?
+        .run()
+        .await
 }
