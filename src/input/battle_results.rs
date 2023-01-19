@@ -394,7 +394,6 @@ pub struct PlayerScore {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CurrentPlayerEarnings {
-    pub bp_chapter: i64,
     pub base_points_diff: i64,
     pub gold_bank_gain: i64,
     pub avatar_damaged: i64,
@@ -630,7 +629,6 @@ pub struct TeamHealth {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Avatar {
-    pub bp_chapter: i64,
     pub avatar_kills: i64,
     pub player_rank: i64,
     pub base_points_diff: i64,
