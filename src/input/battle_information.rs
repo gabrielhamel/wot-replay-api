@@ -7,7 +7,7 @@ use serde_json::Value;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct BattleInformations {
+pub struct BattleInformation {
     pub player_vehicle: String,
     pub client_version_from_xml: String,
     pub map_display_name: String,

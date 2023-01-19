@@ -1,7 +1,7 @@
 use juniper::{EmptyMutation, EmptySubscription, RootNode, FieldResult};
 use wot_replay_parser::ReplayParser;
 use crate::error::ReplayApiError;
-use crate::input::battle_informations::BattleInformations;
+use crate::input::ReplayInput;
 use crate::output::Replay;
 
 pub struct QueryRoot;
@@ -16,9 +16,12 @@ async fn retrieve_replay(url: String) -> Result<ReplayParser, ReplayApiError> {
 impl QueryRoot {
     async fn replay(url: String) -> FieldResult<Replay> {
         let file = retrieve_replay(url).await?;
-        let replay_metadata = file.replay_json_start()?;
-        let replay: BattleInformations = serde_json::from_value(replay_metadata.to_owned())?;
-        Ok(Replay::from(&replay))
+        let json_start = file.replay_json_start()?;
+        let json_end = file.replay_json_end().ok_or(ReplayApiError::ReplayJsonDecodeError)?;
+        Ok(Replay::from(ReplayInput {
+            information: serde_json::from_value(json_start.to_owned())?,
+            results: serde_json::from_value(json_end.to_owned())?
+        }))
     }
 }
 

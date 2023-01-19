@@ -1,4 +1,4 @@
-use crate::input::battle_informations::BattleInformations;
+use crate::input::battle_information::BattleInformation;
 
 #[derive(GraphQLObject)]
 pub struct Map {
@@ -6,8 +6,8 @@ pub struct Map {
     pub display_name: String
 }
 
-impl From<&BattleInformations> for Map {
-    fn from(value: &BattleInformations) -> Self {
+impl From<&BattleInformation> for Map {
+    fn from(value: &BattleInformation) -> Self {
         Map {
             display_name: value.map_display_name.clone(),
             name: value.map_name.clone()

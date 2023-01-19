@@ -1,4 +1,4 @@
-use crate::input::battle_informations::BattleInformations;
+use crate::input::ReplayInput;
 use crate::output::map::Map;
 use crate::output::player::Player;
 use crate::output::server::Server;
@@ -18,14 +18,14 @@ pub struct Replay {
     pub server: Server,
 }
 
-impl From<&BattleInformations> for Replay {
-    fn from(value: &BattleInformations) -> Self {
+impl From<ReplayInput> for Replay {
+    fn from(replay: ReplayInput) -> Self {
         Replay {
-            date: value.date_time.clone(),
-            player: Player::from(value),
-            map: Map::from(value),
-            version: Version::from(value),
-            server: Server::from(value)
+            date: replay.information.date_time.clone(),
+            player: Player::from(&replay.information),
+            map: Map::from(&replay.information),
+            version: Version::from(&replay.information),
+            server: Server::from(&replay.information)
         }
     }
 }

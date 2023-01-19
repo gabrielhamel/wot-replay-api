@@ -6,5 +6,8 @@ pub enum ReplayApiError {
     ReplayFetchError(#[from] reqwest::Error),
 
     #[error("Unable to parse the replay file")]
-    ReplayDecodeError(#[from] ReplayError)
+    ReplayDecodeError(#[from] ReplayError),
+
+    #[error("Unable to parse the replay file")]
+    ReplayJsonDecodeError
 }
