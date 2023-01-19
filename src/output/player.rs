@@ -5,11 +5,11 @@ use crate::input::battle_results::PlayerNameInfo;
 use crate::input::ReplayInput;
 use crate::output::vehicle::Vehicle;
 
-#[derive(GraphQLObject)]
+#[derive(GraphQLObject, Clone)]
 pub struct Player {
-    id: i32,
-    name: String,
-    vehicle: Vehicle
+    pub id: i32,
+    pub name: String,
+    pub vehicle: Vehicle
 }
 
 pub fn from(input: &HashMap<&String, &PlayerNameInfo>, value: &VehicleResults) -> Result<Player, ReplayApiError> {

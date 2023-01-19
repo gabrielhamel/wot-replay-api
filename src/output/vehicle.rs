@@ -1,6 +1,6 @@
 use crate::input::battle_information::VehicleResults;
 
-#[derive(GraphQLObject)]
+#[derive(GraphQLObject, Clone)]
 pub struct Vehicle {
     pub nation: String,
     pub name: String

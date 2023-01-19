@@ -1,4 +1,6 @@
+use juniper::IntoResolvable;
 use crate::error::ReplayApiError;
+use crate::error::ReplayApiError::ReplayConvertError;
 use crate::input::ReplayInput;
 use crate::output::map::Map;
 use crate::output::server::Server;
@@ -13,22 +15,23 @@ mod vehicle;
 #[derive(GraphQLObject)]
 pub struct Replay {
     pub date: String,
-    pub player_id: i32,
     pub version: Version,
     pub map: Map,
     pub server: Server,
+    pub player: player::Player,
     pub players: Vec<player::Player>
 }
 
 impl Replay {
     pub fn create(replay: ReplayInput) -> Result<Replay, ReplayApiError> {
+        let players = player::parse_players(&replay)?;
         Ok(Replay {
             date: replay.information.date_time.clone(),
-            player_id: replay.information.player_id as i32,
+            player: players.iter().find(|p| p.id == replay.information.player_id as i32).ok_or(ReplayApiError::ReplayJsonDecodeError)?.clone(),
             map: Map::from(&replay.information),
             version: Version::from(&replay.information),
             server: Server::from(&replay.information),
-            players: player::parse_players(&replay)?
+            players,
         })
     }
 }
