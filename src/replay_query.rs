@@ -18,10 +18,11 @@ impl QueryRoot {
         let file = retrieve_replay(url).await?;
         let json_start = file.replay_json_start()?;
         let json_end = file.replay_json_end().ok_or(ReplayApiError::ReplayJsonDecodeError)?;
-        Ok(Replay::from(ReplayInput {
+        let replay_input = ReplayInput {
             information: serde_json::from_value(json_start.to_owned())?,
             results: serde_json::from_value(json_end.to_owned())?
-        }))
+        };
+        Ok(Replay::create(replay_input)?)
     }
 }
 

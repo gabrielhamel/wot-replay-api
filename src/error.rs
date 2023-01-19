@@ -9,5 +9,8 @@ pub enum ReplayApiError {
     ReplayDecodeError(#[from] ReplayError),
 
     #[error("Unable to parse the replay file")]
-    ReplayJsonDecodeError
+    ReplayJsonDecodeError,
+
+    #[error("Unable to decode scalars in the replay file")]
+    ReplayConvertError(#[from] std::num::ParseIntError)
 }
