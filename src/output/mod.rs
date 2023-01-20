@@ -9,6 +9,7 @@ mod version;
 mod player;
 mod server;
 mod vehicle;
+mod nation;
 
 #[derive(GraphQLObject)]
 pub struct Replay {

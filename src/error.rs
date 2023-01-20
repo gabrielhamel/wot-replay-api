@@ -1,3 +1,4 @@
+use wot_extractor::errors::ExtractError;
 use wot_replay_parser::ReplayError;
 
 #[derive(thiserror::Error, Debug)]
@@ -12,5 +13,11 @@ pub enum ReplayApiError {
     ReplayJsonDecodeError,
 
     #[error("Unable to decode scalars in the replay file")]
-    ReplayConvertError(#[from] std::num::ParseIntError)
+    ReplayConvertError(#[from] std::num::ParseIntError),
+
+    #[error("Unable to fetch game information")]
+    GameDataFetchError(#[from] ExtractError),
+
+    #[error("Bad configuration")]
+    BadConfigurationError,
 }

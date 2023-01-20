@@ -14,3 +14,4 @@ actix-cors = "0.6"
 env_logger = "0.10"
 reqwest = { version = "0.11", features = ["blocking"] }
 thiserror = "1"
+wot_extractor = { git = "https://github.com/Gabouchet/wot-extractor" }

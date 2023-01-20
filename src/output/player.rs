@@ -25,7 +25,7 @@ pub fn from(input: &HashMap<&String, &PlayerNameInfo>, value: &VehicleResults) -
     Ok(Player {
         id: player_id,
         name: value.name.clone(),
-        vehicle: Vehicle::from(value),
+        vehicle: Vehicle::parse(value)?,
     })
 }
 
