@@ -6,7 +6,7 @@ An api that take a replay URL and returns graphql response containing many repla
 
 The main goal of this project is to extract game events for statistics purposes (Charts, ...)
 
-A huge thanks to [Evido](https://github.com/evido) for his replay [parsing crate](https://github.com/evido/wotreplay-parser) and
+A huge thanks to [Evido](https://github.com/evido) for his replay [parsing api](https://github.com/evido/wotreplay-parser) and
 [Dacite](https://github.com/dacite) for the rust [crate rewrite](https://github.com/dacite/wot-battle-results-parser) 
 
 The listening url http://localhost:8000/graphql
