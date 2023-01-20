@@ -1,0 +1,4 @@
+[submodule "third_parties/wot-extractor"]
+    path = third_parties/wot-extractor
+    url = https://github.com/Gabouchet/wot-extractor.git
+    branch = master

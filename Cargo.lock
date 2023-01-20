@@ -2636,7 +2636,6 @@ dependencies = [
 [[package]]
 name = "wot_extractor"
 version = "0.1.0"
-source = "git+https://github.com/Gabouchet/wot-extractor#6be1940263db829118986e5265186b488950bb09"
 dependencies = [
  "gettext",
  "thiserror",

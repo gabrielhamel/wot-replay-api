@@ -27,7 +27,7 @@ impl Replay {
         Ok(Replay {
             date: replay.information.date_time.clone(),
             player: players.iter().find(|p| p.id == replay.information.player_id as i32).ok_or(ReplayApiError::ReplayJsonDecodeError)?.clone(),
-            map: Map::from(&replay.information),
+            map: Map::parse(&replay.information)?,
             version: Version::from(&replay.information),
             server: Server::from(&replay.information),
             players,
