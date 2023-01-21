@@ -1,8 +1,5 @@
-use std::collections::HashMap;
 use crate::error::ReplayApiError;
-use crate::input::battle_information::VehicleResults;
 use crate::input::battle_results::VehicleEarning;
-use crate::input::ReplayInput;
 
 #[derive(GraphQLObject, Clone)]
 pub struct Assistance {
@@ -20,11 +17,19 @@ pub struct Xp {
 }
 
 #[derive(GraphQLObject, Clone)]
+pub struct Shots {
+    total: i32,
+    direct_hit: i32,
+    penetration: i32
+}
+
+#[derive(GraphQLObject, Clone)]
 pub struct Score {
     damages: i32,
     kills: i32,
     assistance: Assistance,
     xp: Xp,
+    shots: Shots,
 }
 
 impl Score {
@@ -46,6 +51,11 @@ impl Score {
             },
             xp: Xp {
                 base: score.xp as i32,
+            },
+            shots: Shots {
+                total: score.shots as i32,
+                direct_hit: score.direct_hits as i32,
+                penetration: score.piercing_enemy_hits as i32
             }
         })
     }
