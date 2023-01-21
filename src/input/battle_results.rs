@@ -430,7 +430,7 @@ pub struct CurrentPlayerEarnings {
     pub avatar_damage_event_list: Value,
     #[serde(rename = "PM2Progress")]
     pub pm2progress: HashMap<String, Pm2Progress>,
-    pub has_battle_pass: bool,
+    pub has_battle_pass: Option<bool>,
     #[serde(rename = "accountDBID")]
     pub account_dbid: i64,
     pub gold_replay: Value,
@@ -453,7 +453,7 @@ pub struct CurrentPlayerEarnings {
     pub referral_bonus_vehicles: Vec<i64>,
     #[serde(rename = "recruiterID")]
     pub recruiter_id: i64,
-    pub bp_non_chapter_points_diff: i64,
+    pub bp_non_chapter_points_diff: Option<i64>,
     pub crystal: i64,
     pub crystal_replay: Value,
     pub rank_change: i64,
@@ -631,14 +631,14 @@ pub struct TeamHealth {
 pub struct Avatar {
     pub avatar_kills: i64,
     pub player_rank: i64,
-    pub base_points_diff: i64,
-    pub has_battle_pass: bool,
+    pub base_points_diff: Option<i64>,
+    pub has_battle_pass: Option<bool>,
     pub avatar_damaged: i64,
     pub total_damaged: i64,
-    pub bp_non_chapter_points_diff: i64,
+    pub bp_non_chapter_points_diff: Option<i64>,
     pub avatar_damage_dealt: i64,
     pub is_premature_leave: Option<bool>,
-    pub sum_points: i64,
+    pub sum_points: Option<i64>,
     pub fairplay_violations: Vec<i64>,
     pub badges: Vec<Vec<i64>>,
 }
