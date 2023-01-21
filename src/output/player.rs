@@ -9,14 +9,16 @@ use crate::output::vehicle::Vehicle;
 pub struct Player {
     pub id: i32,
     pub name: String,
-    pub vehicle: Vehicle
+    pub anonymized_name: String,
+    pub vehicle: Vehicle,
+    pub is_anonymized: bool
 }
 
 pub fn from(input: &HashMap<&String, &PlayerNameInfo>, value: &VehicleResults) -> Result<Player, ReplayApiError> {
     // Find player id
     let mut player_id = 0_i32;
     for player in input {
-        if player.1.name == value.name {
+        if player.1.real_name == value.name {
             player_id = player.0.parse()?;
             break;
         }
@@ -25,6 +27,8 @@ pub fn from(input: &HashMap<&String, &PlayerNameInfo>, value: &VehicleResults) -
     Ok(Player {
         id: player_id,
         name: value.name.clone(),
+        anonymized_name: value.fake_name.clone(),
+        is_anonymized: if value.name == value.fake_name { false } else { true },
         vehicle: Vehicle::parse(value)?,
     })
 }
