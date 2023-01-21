@@ -10,6 +10,7 @@ mod player;
 mod server;
 mod vehicle;
 mod nation;
+mod score;
 
 #[derive(GraphQLObject)]
 pub struct Replay {
