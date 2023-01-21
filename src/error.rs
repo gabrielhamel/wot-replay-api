@@ -1,3 +1,4 @@
+use std::env::VarError;
 use wot_extractor::errors::ExtractError;
 use wot_replay_parser::ReplayError;
 
@@ -19,5 +20,5 @@ pub enum ReplayApiError {
     GameDataFetchError(#[from] ExtractError),
 
     #[error("Bad configuration")]
-    BadConfigurationError,
+    BadConfigurationError(#[from] VarError),
 }

@@ -1,3 +1,4 @@
+use std::env;
 use wot_extractor::WotExtractor;
 use crate::error::ReplayApiError;
 use crate::input::battle_information::BattleInformation;
@@ -10,7 +11,7 @@ pub struct Map {
 
 impl Map {
     pub fn parse(value: &BattleInformation) -> Result<Map, ReplayApiError> {
-        let extractor = WotExtractor::from(option_env!("WOT_PATH").ok_or(ReplayApiError::BadConfigurationError)?);
+        let extractor = WotExtractor::from(&*env::var("WOT_PATH")?);
         let map_locale = extractor.localization.map(&*value.map_name)?;
         Ok(Map {
             name: value.map_name.clone(),

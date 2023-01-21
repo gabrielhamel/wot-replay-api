@@ -401,7 +401,7 @@ pub struct CurrentPlayerEarnings {
     pub credits_replay: Value,
     #[serde(rename = "freeXPReplay")]
     pub free_xpreplay: Value,
-    pub sum_points: i64,
+    pub sum_points: Option<i64>,
     pub xp: i64,
     pub fairplay_violations: Vec<i64>,
     pub badges: Vec<Vec<i64>>,

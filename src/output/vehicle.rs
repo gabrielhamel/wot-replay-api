@@ -1,3 +1,4 @@
+use std::env;
 use wot_extractor::WotExtractor;
 use crate::error::ReplayApiError;
 use crate::input::battle_information::VehicleResults;
@@ -13,7 +14,7 @@ pub struct Vehicle {
 impl Vehicle {
     pub fn parse(value: &VehicleResults) -> Result<Vehicle, ReplayApiError> {
         let vehicle_type = value.vehicle_type.split(':').collect::<Vec<&str>>();
-        let extractor = WotExtractor::from(option_env!("WOT_PATH").ok_or(ReplayApiError::BadConfigurationError)?);
+        let extractor = WotExtractor::from(&*env::var("WOT_PATH")?);
         let nation_locale = extractor.localization.nation(vehicle_type[0])?;
         let mut nation = Nation::from(&nation_locale);
         let tank = extractor.localization.tank(vehicle_type[0], vehicle_type[1])?;
