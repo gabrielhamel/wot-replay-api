@@ -394,7 +394,7 @@ pub struct PlayerScore {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CurrentPlayerEarnings {
-    pub base_points_diff: i64,
+    pub base_points_diff: Option<i64>,
     pub gold_bank_gain: i64,
     pub avatar_damaged: i64,
     pub bpcoin_replay: Value,
