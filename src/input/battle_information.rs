@@ -14,7 +14,7 @@ pub struct BattleInformation {
     pub client_version_from_exe: String,
     pub player_name: String,
     #[serde(rename = "playerID")]
-    pub player_id: i64,
+    pub player_id: u64,
     pub server_name: String,
     pub vehicles: HashMap<String, VehicleResults>,
     pub server_settings: ServerSettings,

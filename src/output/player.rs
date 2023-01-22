@@ -6,10 +6,11 @@ use crate::input::battle_results::Vehicle as VehicleInfo;
 use crate::input::ReplayInput;
 use crate::output::score::Score;
 use crate::output::vehicle::Vehicle;
+use crate::scalars::u64::U64;
 
 #[derive(GraphQLObject, Clone)]
 pub struct Player {
-    pub id: i32,
+    pub id: U64,
     pub name: String,
     pub anonymized_name: String,
     pub vehicle: Vehicle,
@@ -19,7 +20,7 @@ pub struct Player {
 
 pub fn from(players_info: &HashMap<&String, &PlayerNameInfo>, vehicles_info: &HashMap<&String, &VehicleInfo>, value: &VehicleResults) -> Result<Player, ReplayApiError> {
     // Find player id
-    let mut player_id = 0_i32;
+    let mut player_id = 0_u64;
     for player in players_info {
         if player.1.real_name == value.name {
             player_id = player.0.parse()?;
@@ -42,7 +43,7 @@ pub fn from(players_info: &HashMap<&String, &PlayerNameInfo>, vehicles_info: &Ha
     }
 
     Ok(Player {
-        id: player_id,
+        id: U64(player_id),
         name: value.name.clone(),
         anonymized_name: value.fake_name.clone(),
         is_anonymized: if value.name == value.fake_name { false } else { true },

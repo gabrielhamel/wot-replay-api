@@ -16,6 +16,7 @@ mod replay_query;
 mod error;
 mod output;
 mod input;
+mod scalars;
 
 use crate::replay_query::{create_schema, Schema};
 
