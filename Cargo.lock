@@ -742,6 +742,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "enum_dispatch"
+version = "0.3.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11f36e95862220b211a6e2aa5eca09b4fa391b13cd52ceb8035a24bf65a79de2"
+dependencies = [
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "env_logger"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2584,8 +2596,6 @@ dependencies = [
 [[package]]
 name = "wot-battle-results-parser-macros"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d59d008adb81f9031a4cdc546c062bcc36d0b5179efdee35a2509e924e8f6c4"
 dependencies = [
  "convert_case 0.5.0",
  "proc-macro2",
@@ -2598,6 +2608,19 @@ name = "wot-battle-results-parser-utils"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a9310fbc5bef4f9a9accd7081a44c7fb17825881aadebd33c0a9068aa7df4bb4"
+dependencies = [
+ "anyhow",
+ "miniz_oxide 0.6.2",
+ "serde",
+ "serde-pickle",
+ "thiserror",
+]
+
+[[package]]
+name = "wot-battle-results-parser-utils"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55d6c7428d77d2583cf8c9d25d9881be74d26bfec0427b9fabf4641248dfe219"
 dependencies = [
  "anyhow",
  "miniz_oxide 0.6.2",
@@ -2626,11 +2649,9 @@ dependencies = [
 [[package]]
 name = "wot_def_file_parser"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "059b2dcf3e3f502d917b66353d14205d1dfc4bc5e0a3dda4d425f1c0b7b0686c"
 dependencies = [
  "roxmltree",
- "wot-battle-results-parser-utils",
+ "wot-battle-results-parser-utils 0.1.0",
 ]
 
 [[package]]
@@ -2644,12 +2665,11 @@ dependencies = [
 [[package]]
 name = "wot_replay_parser"
 version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef711d9600617048ea33fc7cdb616f548aaf0e5b92ef48753a19b8b9c7d0596d"
 dependencies = [
  "bimap",
  "blowfish",
  "byteorder",
+ "enum_dispatch",
  "hex",
  "miniz_oxide 0.4.4",
  "nom",
@@ -2665,7 +2685,8 @@ dependencies = [
  "time 0.3.17",
  "tracing",
  "wot-battle-results-parser-macros",
- "wot-battle-results-parser-utils",
+ "wot-battle-results-parser-utils 0.1.0",
+ "wot-battle-results-parser-utils 0.2.0",
  "wot_def_file_parser",
  "wot_types",
 ]
@@ -2673,8 +2694,6 @@ dependencies = [
 [[package]]
 name = "wot_types"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68d8527942e1f42a5bdc28cf7f367f5d02b6042a2fc4726962d2518e40f3d8a2"
 dependencies = [
  "num_enum",
  "serde",

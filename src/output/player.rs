@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use wot_replay_parser::ReplayParser;
 use crate::error::ReplayApiError;
 use crate::input::battle_information::VehicleResults;
 use crate::input::battle_results::{PlayerNameInfo, VehicleEarning};
@@ -18,7 +19,7 @@ pub struct Player {
     pub score: Score,
 }
 
-pub fn from(players_info: &HashMap<&String, &PlayerNameInfo>, vehicles_info: &HashMap<&String, &VehicleInfo>, value: &VehicleResults) -> Result<Player, ReplayApiError> {
+pub fn from(parser: &ReplayParser, players_info: &HashMap<&String, &PlayerNameInfo>, vehicles_info: &HashMap<&String, &VehicleInfo>, value: &VehicleResults) -> Result<Player, ReplayApiError> {
     // Find player id
     let mut player_id = 0_u64;
     for player in players_info {
@@ -47,7 +48,7 @@ pub fn from(players_info: &HashMap<&String, &PlayerNameInfo>, vehicles_info: &Ha
         name: value.name.clone(),
         anonymized_name: value.fake_name.clone(),
         is_anonymized: if value.name == value.fake_name { false } else { true },
-        vehicle: Vehicle::parse(value)?,
+        vehicle: Vehicle::parse(parser, value)?,
         score: Score::parse(vehicle_score.ok_or(ReplayApiError::ReplayJsonDecodeError)?)?,
     })
 }
@@ -70,12 +71,12 @@ fn collect_users_info(input: &ReplayInput) -> (HashMap<&String, &PlayerNameInfo>
     (players_info, vehicles_info)
 }
 
-pub fn parse_players(input: &ReplayInput) -> Result<Vec<Player>, ReplayApiError> {
+pub fn parse_players(parser: &ReplayParser, input: &ReplayInput) -> Result<Vec<Player>, ReplayApiError> {
     let users_info = collect_users_info(input);
 
     let mut result: Vec<Player> = vec![];
     for player in &input.information.vehicles {
-        result.push(from(&users_info.0, &users_info.1, player.1)?);
+        result.push(from(parser,&users_info.0, &users_info.1, player.1)?);
     }
     Ok(result)
 }

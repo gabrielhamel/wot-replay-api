@@ -1,3 +1,4 @@
+use wot_replay_parser::ReplayParser;
 use crate::error::ReplayApiError;
 use crate::input::ReplayInput;
 use crate::output::map::Map;
@@ -23,8 +24,8 @@ pub struct Replay {
 }
 
 impl Replay {
-    pub fn create(replay: ReplayInput) -> Result<Replay, ReplayApiError> {
-        let players = player::parse_players(&replay)?;
+    pub fn create(parser: &ReplayParser, replay: ReplayInput) -> Result<Replay, ReplayApiError> {
+        let players = player::parse_players(parser, &replay)?;
         Ok(Replay {
             date: replay.information.date_time.clone(),
             player: players.iter().find(|p| p.id.0 == replay.information.player_id)

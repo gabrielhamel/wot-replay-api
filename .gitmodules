@@ -2,3 +2,8 @@
     path = third_parties/wot-extractor
     url = https://github.com/Gabouchet/wot-extractor.git
     branch = master
+
+[submodule "third_parties/wot-battle-results-parser"]
+    path = third_parties/wot-battle-results-parser
+    url = https://github.com/gabrielhamel/wot-battle-results-parser.git
+    branch = dev

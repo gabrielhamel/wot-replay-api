@@ -22,7 +22,7 @@ impl QueryRoot {
             information: serde_json::from_value(json_start.to_owned())?,
             results: serde_json::from_value(json_end.to_owned())?
         };
-        Ok(Replay::create(replay_input)?)
+        Ok(Replay::create(&file, replay_input)?)
     }
 }
 

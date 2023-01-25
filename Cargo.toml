@@ -5,7 +5,6 @@ edition = "2021"
 
 [dependencies]
 juniper = "0.15"
-wot_replay_parser = "0.2"
 actix-web = "4"
 serde = "1"
 serde_json = "1"
@@ -15,3 +14,4 @@ env_logger = "0.10"
 reqwest = { version = "0.11", features = ["blocking"] }
 thiserror = "1"
 wot_extractor = { path = "third_parties/wot-extractor" }
+wot_replay_parser = { path = "third_parties/wot-battle-results-parser/replay_parser" }
